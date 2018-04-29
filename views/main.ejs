@@ -1,41 +1,61 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title></title>
-    <link rel='stylesheet' href='/stylesheets/style2.css' />
-    <script src="/socket.io/socket.io.js"> </script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.js"></script>
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
 
-    <script type="text/javascript">
+<head>
+  <title></title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style media="screen">
+    form { background: #fff; position: fixed; bottom: 0; width: 100%; }
+    button {position: relative; margin-left: 10px}
+  </style>
+
+</head>
+
+<body>
+  <div class="container-fulid">
+    <div class="row">
+      <ul id="messages" class="list-group list-group-flush"></ul>
+    </div>
+
+    <div class="row">
+      <form>
+        <textarea class="form-control" rows="3" id="m"></textarea>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
     var socket = io('//localhost:3001');
-    socket.on('welcome', function (data) {
+    socket.on('welcome', function(data) {
       console.log(data);
     });
-    $(function(){
+    $(function() {
 
-      $('form').submit(function(event){
+      $('form').submit(function(event) {
         event.preventDefault()
         //socket.emit('chat message', $('#m').val());
         $.post({
-          url:'/users',
-          data:'message=' + $('#m').val(),
-          success:function(data){
+          url: '/users',
+          data: 'message=' + $('#m').val(),
+          success: function(data) {
             console.log(data);
             $('#m').val('');
           }
         })
       })
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
+      socket.on('chat message', function(msg) {
+        $('#messages').append($('<li class="list-group-item">').text(msg));
       });
     })
+  </script>
+</body>
 
-    </script>
-  </body>
 </html>
