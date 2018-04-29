@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <%if(message){%>
+      <%=message%>
+    <%}%>
+    <form action="/register" method="post">
+      <label for="username">用户名</label>
+      <input type="text" name="username" value=""><br>
+      <label for="password">密码</label>
+      <input type="password" id="passwordinput" name="password" value="">
+      <label id="passwordcheck">x, 密码最少8位，大写，小写，数字都要包含</label>
+      <br>
+      <label for="validate">确认</label>
+      <input type="password" name="vpassword" value=""><br>
+
+
+      <p>请输入验证码:</p>
+      <img id="verifypicture" src='/captcha' alt="">
+      <a id="refreshcode" href="#">刷新</a><br>
+      <input type="text" name="verifyCode" value="">><br>
+      <input type="submit" name="" value="提交"><br>
+    </form>
+    <a href="/">登陆</a>
+
+    <script type="text/javascript" src="/javascripts/jquery.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('#refreshcode').on('click', function() {
+          $('#verifypicture').attr("src", '/captcha/?' + Date.now());
+          event.preventDefault();
+        });
+        $('#passwordinput').on('input', function(){
+          let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+          //let passwordRegex = /[/d]+/
+          let passwordValue = $('#passwordinput').val();
+          if (passwordRegex.test(passwordValue)){
+              $('#passwordcheck').html('v');
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

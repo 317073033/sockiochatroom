@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <%if(message){%>
+    <%=message%>
+  <%}%>
+  <div class="">
+    <form action="/login" method="post">
+      <label for="username">用户名</label>
+      <input type="text" name="username" placeholder="请输入用户名" value=""><br>
+      <label for="password">密码</label>
+      <input type="password" name="password" placeholder="请输入密码" value=""><br>
+
+      <p>请输入验证码:</p>
+      <img id="verifypicture" src='/captcha' alt="">
+      <a id="refreshcode" href="#">刷新</a><br>
+      <input type="text" name="verifyCode" value=""><br>
+      <input type="submit" name="" value="提交"><br>
+    </form>
+
+  </div>
+
+
+  <div class="">
+    <a href="/register">新用户请注册</a>
+  </div>
+
+</body>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript">
+  $(function() {
+    $('#refreshcode').on('click', function() {
+      $('#verifypicture').attr("src", '/captcha/?' + Date.now());
+      event.preventDefault();
+    })
+  })
+</script>
+
+</html>
