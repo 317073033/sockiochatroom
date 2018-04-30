@@ -18,7 +18,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/captcha', function(req, res) {
-  var captcha = svgCaptcha.create({color: true, size: 5 });
+  var captcha = svgCaptcha.create({color: true, size: 4 });
   req.session.captcha = captcha.text;
   res.type('svg');
   res.status(200).send(captcha.data);

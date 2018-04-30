@@ -1,47 +1,82 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <%if(message){%>
-      <%=message%>
-    <%}%>
-    <form action="/register" method="post">
-      <label for="username">用户名</label>
-      <input type="text" name="username" value=""><br>
-      <label for="password">密码</label>
-      <input type="password" id="passwordinput" name="password" value="">
-      <label id="passwordcheck">x, 密码最少8位，大写，小写，数字都要包含</label>
-      <br>
-      <label for="validate">确认</label>
-      <input type="password" name="vpassword" value=""><br>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.css" rel="stylesheet">
+  <link href="stylesheets/signin.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container text-center">
+      <form class="form-signin" role="form" action="/register" method="post">
+        <h2>注册</h2>
+        <p class='hint'>
+          <%if(message){%>
+            <%=message%>
+              <%}%>
+        </p>
+        <div class="row">
+          <label for="username" class="col-sm-3 control-label text-center">用户名</label>
+          <div class="col-sm-9">
+            <input type="text" placeholder="用户名" class="form-control" name="username" autofocus>
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="password" class="col-sm-3 control-label text-center">密码</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="passwordinput" name="password" value="">
+          </div>
+        </div>
+        <div class="row">
+          <p class="col-sm-12 text-center" id="passwordcheck">最少8位，需包含大写，小写，数字</p>
+        </div>
+        <div class="row">
+          <label for="vpassword" class="col-sm-3 control-label text-center">重复密码</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="vpasswordinput" name="vpassword" value="">
+          </div>
+        </div>
+          <img class="col-sm-9" id="verifypicture" src='/captcha' alt="">
+          <button type="button" class="btn"><a id="refreshcode" href='/captcha'>刷新</a></button>
+        <div class="row">
+          <label for="verifyCode" class="col-sm-3  control-label text-center">验证码</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="verifyCodeinput" name="verifyCode" value="">
+          </div>
+        </div>
+          <button class="btn btn-lg btn-primary" type="submit">注册</button>
+      </form>
+
+      <a href="/">已注册用户？登陆</a>
+
+    </div>
 
 
-      <p>请输入验证码:</p>
-      <img id="verifypicture" src='/captcha' alt="">
-      <a id="refreshcode" href="#">刷新</a><br>
-      <input type="text" name="verifyCode" value="">><br>
-      <input type="submit" name="" value="提交"><br>
-    </form>
-    <a href="/">登陆</a>
 
-    <script type="text/javascript" src="/javascripts/jquery.js"></script>
-    <script type="text/javascript">
-      $(function() {
-        $('#refreshcode').on('click', function() {
-          $('#verifypicture').attr("src", '/captcha/?' + Date.now());
-          event.preventDefault();
-        });
-        $('#passwordinput').on('input', function(){
-          let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
-          //let passwordRegex = /[/d]+/
-          let passwordValue = $('#passwordinput').val();
-          if (passwordRegex.test(passwordValue)){
-              $('#passwordcheck').html('v');
-          }
-        })
+  <script type="text/javascript">
+    $(function() {
+      $('#refreshcode').on('click', function() {
+        $('#verifypicture').attr("src", '/captcha/?' + Date.now());
+        event.preventDefault();
+      });
+      $('#passwordinput').on('input', function() {
+        let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+        //let passwordRegex = /[/d]+/
+        let passwordValue = $('#passwordinput').val();
+        if (passwordRegex.test(passwordValue)) {
+          $('#passwordcheck').css("color", 'blue').html('OK');
+        }else {
+            $('#passwordcheck').css("color", 'red').html('最少8位，需包含大写，小写，数字');
+        }
       })
-    </script>
-  </body>
+    })
+  </script>
+</body>
+
 </html>

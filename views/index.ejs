@@ -2,36 +2,41 @@
 <html>
 
 <head>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.css" rel="stylesheet">
+  <link href="stylesheets/signin.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-  <%if(message){%>
-    <%=message%>
-  <%}%>
-  <div class="">
-    <form action="/login" method="post">
-      <label for="username">用户名</label>
-      <input type="text" name="username" placeholder="请输入用户名" value=""><br>
-      <label for="password">密码</label>
-      <input type="password" name="password" placeholder="请输入密码" value=""><br>
+<body class="text-center">
+  <div class="container">
+    <div class="text-center">
+      <p class='hintwrong'><%if(message){%>
+          <%=message%>
+            <%}%></p>
+    </div>
 
-      <p>请输入验证码:</p>
-      <img id="verifypicture" src='/captcha' alt="">
-      <a id="refreshcode" href="#">刷新</a><br>
-      <input type="text" name="verifyCode" value=""><br>
-      <input type="submit" name="" value="提交"><br>
-    </form>
+          <form action="/login" method="post" class="form-signin">
+            <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+            <label for="inputUsername" class="sr-only">用户名</label>
+            <input type="text" name="username" class="form-control" placeholder="用户名" required autofocus>
+            <label for="inputPassword" class="sr-only">密码</label>
+            <input type="password" name="password" class="form-control" placeholder="密码" required>
+            <img id="verifypicture" src='/captcha' alt="">
+            <label for="inputVerifyCode" class="sr-only">验证码</label>
+            <button type="button" name="button" class="btn btn-default"><a id="refreshcode" href="#">刷新</a></button>
+            <input type="text" name="verifyCode" class="form-control" placeholder="验证码" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+          </form>
+
+            <a href="/register">新用户请注册</a>
+
+
 
   </div>
-
-
-  <div class="">
-    <a href="/register">新用户请注册</a>
-  </div>
-
 </body>
-<script type="text/javascript" src="/javascripts/jquery.js"></script>
 <script type="text/javascript">
   $(function() {
     $('#refreshcode').on('click', function() {
